@@ -63,7 +63,7 @@ class Model():
         elif caption == '-':
             temp -= float(porcentagem)
         elif caption == '*':
-            temp *= float(porcentagem) / 100
+            temp = float(float(self.previus_value) * (value / 100))
         elif caption == '/':
-            temp /= float(porcentagem) / 100
+            temp = float(float(self.previus_value) / (value / 100))
         self.value = str(temp)
