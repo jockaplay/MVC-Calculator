@@ -16,7 +16,7 @@ class View(tk.Tk):
     def __init__(self, controller):
         super().__init__()
         
-        self.title('PyCulator 0.1')
+        self.title('PyCulator 1.0')
         self.controller = controller
         self.value_var = tk.StringVar() #Like useState from React
         
