@@ -23,6 +23,7 @@ class View(tk.Tk):
         self._make_main_frame()
         self._make_entry()
         self._make_buttons()
+        self._make_window()
     
     def main(self):
         self.mainloop()
@@ -32,8 +33,8 @@ class View(tk.Tk):
         self.main_frm.pack(padx=self.PAD, pady=self.PAD)
         
     def _make_entry(self):
-        ent = ttk.Entry(self.main_frm, textvariable=self.value_var, justify='right', state='disabled')
-        ent.pack(fill='x')
+        ent = ttk.Entry(self.main_frm, textvariable=self.value_var, justify='right', state='disabled', foreground='#212121')
+        ent.pack(fill='x', ipady=self.PAD, pady=(0, self.PAD))
     
     def _make_buttons(self):
         outer_frm = ttk.Frame(self.main_frm)
@@ -54,6 +55,15 @@ class View(tk.Tk):
             btn = ttk.Button(frm, text=caption, command=(
                     lambda button=caption: self.controller.on_button_click(button)
                 ))
-            btn.pack(side='left') if caption != 0 else btn.pack(side='left', fill='x', expand=True)
+            btn.pack(side='left', ipady=self.PAD) if caption != 0 else btn.pack(side='left', fill='x', expand=True, ipady=self.PAD)
             
             buttons_in_row += 1
+
+    def _make_window(self):
+        self.update()
+        width = self.winfo_width()
+        height = self.winfo_height()
+
+        x_offset = ((self.winfo_screenwidth() - width) // 2)
+        y_offset = ((self.winfo_screenheight() - height) // 2)
+        self.geometry(f'{width}x{height}+{x_offset}+{y_offset}')

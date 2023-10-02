@@ -11,14 +11,33 @@ class Model():
                 self.value = ''
                 self.operator = ''
             case '+/-':
-                self.value = self.value[1:] if self.value[0] == '-' else '-' + self.value
+                try:
+                    self.value = self.value[1:] if self.value[0] == '-' else '-' + self.value
+                except:
+                    self.value = ''
             case '.':
                 if not caption in self.value:
-                    self.value += caption
+                    if self.value:
+                        self.value += caption
+                    else:
+                        self.value += '0' + caption
             case '=':
-                self.value = str(self._evaluete())
+                try:
+                    self.value = str(self._evaluete())
+                except:
+                    self.value = ''
             case '%':
-                pass
+                try:
+                    if self.operator:
+                        self.percent(self.operator)
+                        self.previus_value = ''
+                        self.operator = ''
+                    else:
+                        self.previus_value = str(int(self.value) / 100)
+                        self.operator = '*'
+                        self.value = ''
+                except:
+                    self.value = ''
             case '¬':
                 self.value = self.value[:-1]
             case _:
@@ -34,3 +53,17 @@ class Model():
     
     def _evaluete(self):
         return eval(self.previus_value + self.operator + self.value)
+
+    def percent(self, caption):
+        value = float(self.value) if '.' in self.value else int(self.value)
+        porcentagem = (float(self.previus_value) * value) / 100
+        temp = float(self.previus_value)
+        if caption == '+':
+            temp += float(porcentagem)
+        elif caption == '-':
+            temp -= float(porcentagem)
+        elif caption == '*':
+            temp *= float(porcentagem) / 100
+        elif caption == '/':
+            temp /= float(porcentagem) / 100
+        self.value = str(temp)
